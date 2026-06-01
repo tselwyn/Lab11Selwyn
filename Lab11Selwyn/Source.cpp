@@ -59,7 +59,7 @@ int main(void)
 
 	int xOff = 0;
 	int yOff = 0;
-	if (MapLoad((char*)"done.fmp", 1))
+	if (MapLoad((char*)"tyty.fmp", 1))
 		return -5;
 
 	event_queue = al_create_event_queue();
