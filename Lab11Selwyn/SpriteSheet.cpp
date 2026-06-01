@@ -1,5 +1,9 @@
 #include "SpriteSheet.h"
 
+// forward declarations for tile collision functions in Source.cpp
+int collided(int x, int y);
+bool endValue(int x, int y);
+
 Sprite::Sprite()
 {
 	image = NULL;

@@ -1,3 +1,8 @@
+// Tyler Selwyn
+// CPSC 440 - Game Programming
+// Lab 11 - Mappy Side Scroller
+// Main game loop and collision detection
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
@@ -47,7 +52,7 @@ int main(void)
 
 	int xOff = 0;
 	int yOff = 0;
-	if (MapLoad("sample.fmp", 1))
+	if (MapLoad((char*)"myMap.FMP", 1))
 		return -5;
 
 	event_queue = al_create_event_queue();
