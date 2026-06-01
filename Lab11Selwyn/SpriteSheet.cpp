@@ -1,3 +1,8 @@
+// Tyler Selwyn
+// CPSC 440 - Game Programming
+// Lab 11 - Mappy Side Scroller
+// Sprite implementation with jump animation and collision
+
 #include "SpriteSheet.h"
 
 // forward declarations for tile collision functions in Source.cpp
@@ -26,6 +31,9 @@ void Sprite::InitSprites(int width, int height)
 	frameHeight = 64;
 	animationColumns = 8;
 	animationDirection = 1;
+
+	isJumping = false;
+	jumpFrameCount = 0;
 
 	image = al_load_bitmap("guy.bmp");
 	al_convert_mask_to_alpha(image, al_map_rgb(255, 0, 255));
@@ -108,12 +116,28 @@ int Sprite::jumping(int jump, const int JUMPIT)
 	if (jump == JUMPIT) {
 		if (!collided(x + frameWidth / 2, y + frameHeight + 5))
 			jump = 0;
+		isJumping = false;
 	}
 	else
 	{
 		y -= jump / 3;
 		jump--;
-		curFrame = 0;
+		isJumping = true;
+
+		//check for ceiling collision so player doesnt go through top
+		if (jump > 0) {
+			if (collided(x + frameWidth / 2, y)) {
+				jump = 0; //stop going up and start falling
+			}
+		}
+
+		//animate jump frames from row 2 of sprite sheet
+		if (++jumpFrameCount > 5) {
+			jumpFrameCount = 0;
+			curFrame++;
+			if (curFrame < 8 || curFrame > 12)
+				curFrame = 8;
+		}
 	}
 
 	if (jump < 0)

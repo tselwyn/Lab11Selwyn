@@ -1,3 +1,8 @@
+// Tyler Selwyn
+// CPSC 440 - Game Programming
+// Lab 11 - Mappy Side Scroller
+// Sprite class with movement, collision, and jump animation
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
@@ -35,6 +40,9 @@ private:
 	int animationColumns;
 	int animationRows;
 	int animationDirection;
+
+	bool isJumping;
+	int jumpFrameCount;
 
 	ALLEGRO_BITMAP* image;
 };
