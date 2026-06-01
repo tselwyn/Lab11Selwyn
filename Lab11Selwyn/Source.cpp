@@ -9,6 +9,7 @@
 #include <allegro5/allegro_font.h>
 #include "SpriteSheet.h"
 #include "mappy_A5.h"
+#include <cstdio>
 #include <iostream>
 using namespace std;
 
@@ -97,8 +98,26 @@ int main(void)
 				player.UpdateSprites(WIDTH, HEIGHT, 1);
 			else
 				player.UpdateSprites(WIDTH, HEIGHT, 2);
+
+			//check if player reached the end point
 			if (player.CollisionEndBlock())
-				cout << "Hit an End Block\n";
+			{
+				//calculate how long it took to beat the level
+				double endTime = al_get_time();
+				double totalTime = endTime - startTime;
+				char timeMsg[100];
+				sprintf_s(timeMsg, "Level Complete! Time: %.1f seconds", totalTime);
+
+				//draw the completion message on screen
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 20, ALLEGRO_ALIGN_CENTER, timeMsg);
+				al_draw_text(font, al_map_rgb(200, 200, 200), WIDTH / 2, HEIGHT / 2 + 20, ALLEGRO_ALIGN_CENTER, "Exiting in 10 seconds...");
+				al_flip_display();
+
+				//wait 10 seconds then exit
+				al_rest(10.0);
+				done = true;
+			}
 
 			//update animated tiles each frame
 			MapUpdateAnims();
