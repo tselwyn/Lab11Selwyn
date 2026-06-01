@@ -59,7 +59,7 @@ int main(void)
 
 	int xOff = 0;
 	int yOff = 0;
-	if (MapLoad((char*)"level1mymap.FMP", 1))
+	if (MapLoad((char*)"done.fmp", 1))
 		return -5;
 
 	event_queue = al_create_event_queue();
@@ -217,15 +217,24 @@ int main(void)
 
 
 
+//check if a tile has collision enabled with bounds checking
 int collided(int x, int y)
 {
+	//bounds check to prevent crash if player goes outside map
+	if (x < 0 || y < 0 || x >= mapwidth * mapblockwidth || y >= mapheight * mapblockheight)
+		return 1;
+
 	BLKSTR* blockdata;
 	blockdata = MapGetBlock(x / mapblockwidth, y / mapblockheight);
 	return blockdata->tl;
 }
 
+//check if a tile is an end point tile
 bool endValue(int x, int y)
 {
+	//bounds check to prevent crash
+	if (x < 0 || y < 0 || x >= mapwidth * mapblockwidth || y >= mapheight * mapblockheight)
+		return false;
 
 	BLKSTR* data;
 	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
