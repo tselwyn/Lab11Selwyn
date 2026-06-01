@@ -99,6 +99,10 @@ int main(void)
 				player.UpdateSprites(WIDTH, HEIGHT, 2);
 			if (player.CollisionEndBlock())
 				cout << "Hit an End Block\n";
+
+			//update animated tiles each frame
+			MapUpdateAnims();
+
 			render = true;
 
 		}
