@@ -6,6 +6,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
 #include "SpriteSheet.h"
 #include "mappy_A5.h"
 #include <iostream>
@@ -33,6 +34,7 @@ int main(void)
 	ALLEGRO_DISPLAY* display = NULL;
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer;
+	ALLEGRO_FONT* font = NULL;
 
 	//program init
 	if (!al_init())										//initialize Allegro
@@ -47,12 +49,16 @@ int main(void)
 	al_install_keyboard();
 	al_init_image_addon();
 	al_init_primitives_addon();
+	al_init_font_addon();
+
+	//load built in font for displaying messages
+	font = al_create_builtin_font();
 
 	player.InitSprites(WIDTH, HEIGHT);
 
 	int xOff = 0;
 	int yOff = 0;
-	if (MapLoad((char*)"myMap.FMP", 1))
+	if (MapLoad((char*)"level1mymap.FMP", 1))
 		return -5;
 
 	event_queue = al_create_event_queue();
@@ -62,6 +68,10 @@ int main(void)
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 
 	al_start_timer(timer);
+
+	//track how long it takes to beat the level
+	double startTime = al_get_time();
+
 	//draw the background tiles
 	MapDrawBG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1);
 
@@ -175,6 +185,7 @@ int main(void)
 		}
 	}
 	MapFreeMem();
+	al_destroy_font(font);
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
 
